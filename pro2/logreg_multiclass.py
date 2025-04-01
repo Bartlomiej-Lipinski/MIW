@@ -22,44 +22,30 @@ X = np.array([
 split = int(0.8 * size_of_data)
 X_train = np.array([X[_, :split] for _ in range(len(X))])
 X_test = np.array([X[_, split:] for _ in range(len(X))])
-
+#######################################################################################################################
 # Inicjalizacja i trenowanie modeli regresji logistycznej
 models = []  # Inicjalizacja listy do przechowywania modeli
-
-# Uzupełniony kod: Trening modeli one-vs-all
 for class_idx in range(4):
-    # Łączymy wszystkie dane treningowe
     X_train_all = np.concatenate([X_train[i] for i in range(4)], axis=0)
-    # Dla wybranej klasy etykieta = 1, dla pozostałych = 0 (one-vs-all)
     y_train_all = np.concatenate([np.ones(split) if i == class_idx else np.zeros(split) for i in range(4)])
-
-    # Inicjalizacja modelu regresji logistycznej z odpowiednimi parametrami
-    model = LogisticRegression(learning_rate=0.1, n_iterations=500)
-    model.train(X_train_all, y_train_all)
-    models.append(model)
-
-# Przewidywanie klas dla danych testowych i obliczanie dokładności
+    LR = LogisticRegression(learning_rate=0.1, n_iterations=500)
+    LR.train(X_train_all, y_train_all)
+    models.append(LR)
 true_labels = []
 predicted_labels = []
-
 # Dla każdej klasy przechodzimy po wszystkich punktach testowych
 for class_idx in range(4):
     for sample in X_test[class_idx]:
-        # Dla danej próbki uzyskujemy prawdopodobieństwo z każdego modelu (każdy model daje "szansę" dla swojej klasy)
         probs = np.array([model.predict_probability([sample])[0] for model in models])
-        # Normalizacja przy użyciu funkcji softmax, aby uzyskać rozkład prawdopodobieństwa
         norm_probs = softmax(probs)
-        # Predykcja – wybieramy klasę z najwyższym prawdopodobieństwem
         pred_class = np.argmax(norm_probs)
-
         true_labels.append(class_idx)
         predicted_labels.append(pred_class)
-
 true_labels = np.array(true_labels)
 predicted_labels = np.array(predicted_labels)
 accuracy = np.mean(true_labels == predicted_labels)
 print("Dokładność klasyfikacji: {:.2f}%".format(accuracy * 100))
-
+########################################################################################################################
 # Wyświetlanie punktów danych treningowych i testowych
 colors = ['red', 'green', 'blue', 'magenta']
 for _ in range(4):

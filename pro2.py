@@ -1,5 +1,5 @@
-from perceptron_class import Perceptron as Perceptron
-from logistic_regression import LogisticRegression, calculate_accuracy
+import perceptron_class as perceptron
+import logistic_regression as lr
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
@@ -19,14 +19,3 @@ plt.title("Wygenerowane dane - zbiór treningowy")
 plt.xlabel("x1")
 plt.ylabel("x2")
 plt.show()
-#######################################################################################################################
-Perceptron = Perceptron(learning_rate=0.1, n_iterations=500)
-Perceptron.fit(X_train, y_train)
-y_pred = Perceptron.predict(X_test)
-accuracy = calculate_accuracy(y_test, y_pred)
-#######################################################################################################################
-# LogisticRegression = LogisticRegression(learning_rate=0.1, n_iterations=500)
-# LogisticRegression.fit(X_train, y_train)
-# y_pred = LogisticRegression.predict(X_test)
-# # accuracy = calculate_accuracy(y_test, y_pred)
-

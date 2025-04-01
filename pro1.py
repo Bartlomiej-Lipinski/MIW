@@ -40,7 +40,7 @@ def determine_winner(player, computer):
         return 1
     else:
         return -1
-strategy_version = 1
+strategy_version = 2
 player_last_move = random.choice(states_computer)
 computer_last_move = random.choice(states_computer)
 for _ in range(1000):
